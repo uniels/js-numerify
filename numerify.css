@@ -1,0 +1,63 @@
+.numerify-container {
+    width: 300px;
+    height: 600px;
+    background-color: black;
+    position: relative;
+}
+.numerify-container .numerify-a,
+.numerify-container .numerify-b,
+.numerify-container .numerify-c,
+.numerify-container .numerify-d,
+.numerify-container .numerify-e,
+.numerify-container .numerify-f,
+.numerify-container .numerify-g{
+    background-color: red;
+    position: absolute;
+    border-radius: 40%;
+    display: none;
+}
+
+.numerify-container .numerify-a,
+.numerify-container .numerify-d,
+.numerify-container .numerify-g{
+    width: 60%;
+    height: 10%;
+    left: 20%;
+}
+.numerify-container .numerify-a{
+     top: 5%;   
+}
+.numerify-container .numerify-d{
+     top: 45%;   
+}
+.numerify-container .numerify-g{
+     top: 85%;   
+}
+
+.numerify-container .numerify-b,
+.numerify-container .numerify-c,
+.numerify-container .numerify-e,
+.numerify-container .numerify-f{
+    width: 20%;
+    height: 40%;
+}
+.numerify-container .numerify-b,
+.numerify-container .numerify-e{
+    left: 10%;
+}
+.numerify-container .numerify-c,
+.numerify-container .numerify-f{
+    left: 70%
+}
+.numerify-container .numerify-b,
+.numerify-container .numerify-c{
+    top: 10%;
+}
+.numerify-container .numerify-e,
+.numerify-container .numerify-f{
+    top: 50%;
+}
+
+.numerify-container .numerify-show{
+    display: block;
+}
