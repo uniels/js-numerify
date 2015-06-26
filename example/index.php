@@ -8,6 +8,7 @@
         <script src="../numerify.js"></script>
     </head>
     <body>
+        <input type="number" name="teller" min="1" max="999" value="69">
         <div id="number">
         </div>
     </body>
