@@ -1,63 +1,106 @@
-.numerify-container {
+.numerify-container  {
     width: 300px;
     height: 600px;
     background-color: black;
     position: relative;
 }
+.numerify-container div {
+    position: absolute;
+}
+
+.numerify-container .numerify-up,
+.numerify-container .numerify-down {
+    width: 100%;
+    height: 15%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.numerify-container .numerify-down {
+    top: 85%;
+}
+
+.numerify-container .numerify-up:hover,
+.numerify-container .numerify-down:hover {
+    background-color: white;
+    opacity: 0.2;
+    filter: alpha(opacity=20); /* For IE8 and earlier */
+}
+
+.numerify-container .numerify-up:hover div,
+.numerify-container .numerify-down:hover div {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+.numerify-container .numerify-up:hover div {
+    clip-path: polygon(0 100%, 100% 100%, 50% 0);
+    -webkit-clip-path: polygon(0 100%, 100% 100%, 50% 0);
+    -moz-clip-path: polygon(0 100%, 100% 100%, 50% 0);
+
+}
+
+.numerify-container .numerify-down:hover div {
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    -webkit-clip-path: polygon(0 0, 100% 0, 50% 100%);
+    -moz-clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
 .numerify-container .numerify-a,
 .numerify-container .numerify-b,
 .numerify-container .numerify-c,
 .numerify-container .numerify-d,
 .numerify-container .numerify-e,
 .numerify-container .numerify-f,
-.numerify-container .numerify-g{
+.numerify-container .numerify-g {
     background-color: red;
-    position: absolute;
     border-radius: 40%;
     display: none;
 }
 
 .numerify-container .numerify-a,
 .numerify-container .numerify-d,
-.numerify-container .numerify-g{
+.numerify-container .numerify-g {
     width: 60%;
     height: 10%;
     left: 20%;
 }
-.numerify-container .numerify-a{
+.numerify-container .numerify-a {
      top: 5%;   
 }
-.numerify-container .numerify-d{
+.numerify-container .numerify-d {
      top: 45%;   
 }
-.numerify-container .numerify-g{
+.numerify-container .numerify-g {
      top: 85%;   
 }
 
 .numerify-container .numerify-b,
 .numerify-container .numerify-c,
 .numerify-container .numerify-e,
-.numerify-container .numerify-f{
+.numerify-container .numerify-f {
     width: 20%;
     height: 40%;
 }
 .numerify-container .numerify-b,
-.numerify-container .numerify-e{
+.numerify-container .numerify-e {
     left: 10%;
 }
 .numerify-container .numerify-c,
-.numerify-container .numerify-f{
+.numerify-container .numerify-f {
     left: 70%
 }
 .numerify-container .numerify-b,
-.numerify-container .numerify-c{
+.numerify-container .numerify-c {
     top: 10%;
 }
 .numerify-container .numerify-e,
-.numerify-container .numerify-f{
+.numerify-container .numerify-f {
     top: 50%;
 }
 
-.numerify-container .numerify-show{
+.numerify-container .numerify-show {
     display: block;
 }

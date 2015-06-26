@@ -1,23 +1,32 @@
 function numerify($placeholder,total)
 {
+    var $container = $('#'+objectid);
 
 }
 
-function numerifyObject($objectid)
+function numerifyObject(objectid)
 {
-    var $container = $('#'+objectid);
+    var $container = $();
     if($container.length === 1){
         var digits = [];
         for (var n = 0; n < 8; n++) {
             digits.push( $('<div />').addClass('numerify-'+String.fromCharCode(97 + n)) );
         };
+        digits.push( 
+            $('<div />').addClass('numerify-up').click( function(){
+                numerifyUp( $container );
+            }).append( $('<div />') )
+        );
+        digits.push( 
+            $('<div />').addClass('numerify-down').click( function(){
+                numerifyDown( $container );
+            }).append( $('<div />') )
+        );
         $container.addClass('numerify-container').append(digits);
-        $container.click(function(){
-            numerifyUp( $(this) );
-        });
         numerifySetNumber($container,'0')
     } else console.log('Error on Numerify. "'+objectid+'" is not an object.');
     numerifyShowDigits($container);
+    return $container;
 }
 
 function numerifyHideDigits($object)
