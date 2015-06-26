@@ -2,9 +2,9 @@
 This little script replaces the form-input for numbers.
 It replaces, for example this input:
 
-'''
+```
 <input type="number" name="digits" min="5" max="258" value="69">
-'''
+```
 
 Just numerify the name of this input-field, and it will replace it with digits.
 The value from the original input-field (in this example '69') will be displayed first.
@@ -30,13 +30,13 @@ Add the numerify.js and the numerify.css in the head of your document.
 
 Call the script, using the input field name (in the example above "digits")
 
-'''
+```
 <script>
 ...
 numerify('digits');
 ...
 </script>
-'''
+```
 
 Be sure that the script is called AFTER the input-field.
 
