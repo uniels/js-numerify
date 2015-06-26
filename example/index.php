@@ -12,6 +12,6 @@
         </div>
     </body>
     <script>
-    numerifyObject('number');
+    numerify('number',3);
     </script>
 </html>

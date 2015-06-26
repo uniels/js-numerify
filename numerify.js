@@ -1,30 +1,37 @@
-function numerify($placeholder,total)
+function numerify(placeholder,length)
 {
-    var $container = $('#'+objectid);
+    var $maincontainer = $('#'+placeholder);
+    if($maincontainer.length === 1){
+        var numbers = [];
+        var total = parseInt(length) || 0;
+        for( var i = 0; i < total; i++){
+            numbers.push(numerifyCreateNumber().data('sequence',i+1));
+        }
+        $maincontainer.append(numbers);
+
+    } else console.log('Error on Numerify. "'+placeholder+'" is not an object.');
 
 }
 
-function numerifyObject(objectid)
+function numerifyCreateNumber()
 {
-    var $container = $();
-    if($container.length === 1){
-        var digits = [];
-        for (var n = 0; n < 8; n++) {
-            digits.push( $('<div />').addClass('numerify-'+String.fromCharCode(97 + n)) );
-        };
-        digits.push( 
-            $('<div />').addClass('numerify-up').click( function(){
-                numerifyUp( $container );
-            }).append( $('<div />') )
-        );
-        digits.push( 
-            $('<div />').addClass('numerify-down').click( function(){
-                numerifyDown( $container );
-            }).append( $('<div />') )
-        );
-        $container.addClass('numerify-container').append(digits);
-        numerifySetNumber($container,'0')
-    } else console.log('Error on Numerify. "'+objectid+'" is not an object.');
+    var $container = $('<div />');
+    var digits = [];
+    for (var n = 0; n < 8; n++) {
+        digits.push( $('<div />').addClass('numerify-'+String.fromCharCode(97 + n)) );
+    };
+    digits.push( 
+        $('<div />').addClass('numerify-up').click( function(){
+            numerifyUp( $container );
+        }).append( $('<div />') )
+    );
+    digits.push( 
+        $('<div />').addClass('numerify-down').click( function(){
+            numerifyDown( $container );
+        }).append( $('<div />') )
+    );
+    $container.addClass('numerify-container').append(digits);
+    numerifySetNumber($container,'0');
     numerifyShowDigits($container);
     return $container;
 }
@@ -111,7 +118,11 @@ function numerifyUp($object)
 {
     var number = numerifyGetNumber($object);
     number++;
-    if( number == 10 ) number = 0;
+    if( number == 10 ){
+         number = 0;
+         var $previous = $object.prev('.numerify-container');
+         if( $previous.length ) numerifyUp($previous);
+    }
     numerifySetNumber($object,number);
     numerifyShowDigits($object);
 }
@@ -120,7 +131,11 @@ function numerifyDown($object)
 {
     var number = numerifyGetNumber($object);
     number--;
-    if( number < 0 ) number = 9;
+    if( number < 0 ){
+        number = 9;
+         var $previous = $object.prev('.numerify-container');
+         if( $previous.length ) numerifyDown($previous);        
+    } 
     numerifySetNumber($object,number);
     numerifyShowDigits($object);
 }

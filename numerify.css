@@ -3,6 +3,7 @@
     height: 600px;
     background-color: black;
     position: relative;
+    float: left;
 }
 .numerify-container div {
     position: absolute;
@@ -55,7 +56,7 @@
 .numerify-container .numerify-e,
 .numerify-container .numerify-f,
 .numerify-container .numerify-g {
-    background-color: red;
+    background-color: green;
     border-radius: 40%;
     display: none;
 }
