@@ -1,17 +1,35 @@
-function numerify(placeholder,length)
+function numerify( name )
 {
-    var $maincontainer = $( '#'+placeholder);
-    if( $maincontainer.length === 1){
+    var $input = $( 'input[name="'+name+'"]' );
+    if( $input.length === 1){
+        var value = parseInt( $input.val() ) || 0;
+        var strval = String( value );
+        var min = parseInt( $input.attr( 'min' ) ) || 0;
+        var max = parseInt( $input.attr( 'max' ) ) || numerifyMax( value );
+        var strmax = String(max); //Use max to compare currentvalue.
+        var length = strmax.length;
+        if( value > max ) return console.log('Error in Numerify: value exceeds the maximum value. Please adjust the value or the maximum value.');
+        var $maincontainer = $( '<div />' );
         var numbers = [];
-        var total = parseInt(length) || 0;
+        var total = parseInt(length) || 1;
         for( var i = 0; i < total; i++){
-            numbers.push(numerifyCreateNumber());
+            currentnumber = parseInt( strval.charAt( i - ( total - strval.length  ) ) );
+            numbers.push( numerifyCreateNumber( currentnumber ) );
         }
-        $maincontainer.append(numbers);
-    } else console.log( 'Error on Numerify. "'+placeholder+'" is not an object.' );
+        var $hiddeninput = $('<input>').attr('type','hidden').attr( 'name', name ).val( value );
+        $maincontainer.append( numbers ).append( $hiddeninput ).data( 'max', max).data( 'min', min);
+        $input.replaceWith($maincontainer);
+    } else console.log( 'Error in Numerify: "'+name+'" is not an object.' );
 }
 
-function numerifyCreateNumber()
+function numerifyMax(value)
+{
+    var i = String(value).length;
+    return Math.pow(10,i) - 1;
+
+}
+
+function numerifyCreateNumber( currentnumber )
 {
     var $container = $( '<div />' );
     var digits = [];
@@ -29,8 +47,8 @@ function numerifyCreateNumber()
         }).append( $( '<div />' ) )
     );
     $container.addClass( 'numerify-container' ).append( digits );
-    numerifySetNumber( $container,'0' );
-    numerifyShowDigits( $container);
+    numerifySetNumber( $container, currentnumber );
+    numerifyShowDigits( $container );
     return $container;
 }
 
@@ -44,7 +62,7 @@ function numerifyShowDigits( $object )
     numerifyHideDigits( $object);
     var number = numerifyGetNumber( $object);
     if( !isNaN( number ) && ( number >= 0 && number < 10 ) ){
-        $object.data( 'number', number );
+        //$object.data( 'number', number ); >> Set to SetNumber
         switch ( number ){
             case 8:
                 numerifyShowDigit( $object,"e" );
@@ -92,7 +110,7 @@ function numerifyShowDigits( $object )
                 break;
         }
     } else {
-        numerifyShowDigit( $object,"d" );
+        numerifyShowDigit( $object, "d" );
     }
 }
 
@@ -105,19 +123,51 @@ function numerifySetNumber( $object, num )
 {
     var number = parseInt( num );
     $object.data( 'number',number);
-    console.log( numerifySetTotal( $object.parent('div') ) );
+    numerifyShowDigits( $object );
+}
+
+function numerifySetValue( $maincontainer, value )
+{
+    var strval = String( parseInt(value) );
+    var $numbers = $maincontainer.children('.numerify-container');
+    var totalnumbers = $numbers.length;
+    var number = 0;
+
+    $numbers.each( function( i ){
+        number = parseInt( strval.charAt( i - ( totalnumbers - strval.length  ) ) );
+        numerifySetNumber($(this) , number );
+    });
+    numerifySetTotal( $maincontainer );
 }
 
 function numerifySetTotal( $maincontainer )
 {
-    $numbers = $maincontainer.children( '.numerify-container' );
+    var $numbers = $maincontainer.children( '.numerify-container' );
     var total = '';
+    var value = 0;
+    var max = $maincontainer.data('max');
+    var min = $maincontainer.data('min');
+
     $numbers.each(function(){
-        total += String( $(this).data( 'number' ) );
+        var number = parseInt( $(this).data('number') );
+        if( isNaN(number) ) number = 0;
+        total += String( number );
     });
     totalint = parseInt( total );
-    $maincontainer.data( 'total', totalint );
-    return totalint;
+    if( isNaN(totalint) ) totalint = 0;
+    if( ( totalint <= max ) && ( totalint > min ) ){
+        value = totalint;
+    } else if ( totalint > max ) {
+        // If we only add 1 up, we reset the digits to min, else to the max...
+        if( totalint == max+1 ) value = min;
+        else value = max;
+        numerifySetValue( $maincontainer, value );
+    } else if ( totalint < min ) {
+        if( totalint == min-1 ) value = max;
+        else value = min;
+        numerifySetValue( $maincontainer, value );
+    }
+    $maincontainer.find('input').val( totalint );
 }
 
 function numerifyGetNumber( $object )
@@ -127,26 +177,36 @@ function numerifyGetNumber( $object )
 
 function numerifyUp( $object )
 {
+    numerifySetUp( $object );    
+    numerifySetTotal( $object.parent() );
+}
+
+function numerifySetUp( $object ) //Function not in use...
+{
     var number = numerifyGetNumber( $object );
     number++;
     if( number == 10 ){
          number = 0;
          var $previous = $object.prev( '.numerify-container' );
-         if( $previous.length ) numerifyUp( $previous );
+         if( $previous.length ) numerifySetUp( $previous );
     }
     numerifySetNumber( $object,number );
-    numerifyShowDigits( $object );
 }
 
 function numerifyDown( $object )
+{ 
+    numerifySetDown( $object );
+    numerifySetTotal( $object.parent() );
+}
+
+function numerifySetDown( $object ) //Function not in use...
 {
     var number = numerifyGetNumber( $object);
     number--;
     if( number < 0 ){
         number = 9;
          var $previous = $object.prev( '.numerify-container' );
-         if( $previous.length ) numerifyDown( $previous );        
+         if( $previous.length ) numerifySetDown( $previous );        
     } 
-    numerifySetNumber( $object, number );
-    numerifyShowDigits( $object );
+    numerifySetNumber( $object, number );  
 }

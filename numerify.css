@@ -6,11 +6,6 @@
     float: left;
 }
 
-.numerify-totalbutton {
-    width: 100%;
-    height: 20px;
-    background-color: red;
-}
 .numerify-container div {
     position: absolute;
 }
